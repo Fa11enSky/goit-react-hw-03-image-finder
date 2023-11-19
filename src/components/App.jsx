@@ -1,76 +1,45 @@
 import { Component } from 'react';
-import ContactList from './ContactList/ContactList';
-import Filter from './Filter/Filter';
-import ContactForm from './ContactForm/ContactForm';
-
+import css from './app.module.css';
+import Searchbar from './Searchbar/Searchbar';
+import { requestImage } from 'service/request';
+import ImageGallery from './ImageGallery/ImageGallery';
+import Button from './Button/Button';
 class App extends Component {
   state = {
-    contacts: [],
-    filter: '',
+    images: [],
+    query: '',
+    page: 1,
+    totalPage: 1,
+    error: '',
+    isLoadMore: false,
   };
-  isIncludeContact = name => {
-    return this.state.contacts.find(
-      el => el.name.toLocaleLowerCase() === name.toLocaleLowerCase()
-    );
-  };
-  updateContacts = newContact => {
-    const { name } = newContact;
-    if (this.isIncludeContact(name)) {
-      alert(` ${name} is already in contacts`);
-      return;
+  componentDidUpdate(_, prevState) {
+    const { query, page } = this.state;
+    if (prevState.query !== query || prevState.page !== page) {
+      requestImage(this.state).then(({ hits, totalHits }) => {
+        this.setState(prevState => ({
+          images: [...prevState.images, ...hits],
+          totalPage: totalHits,
+          isLoadMore: page < Math.ceil(totalHits / 12),
+        }));
+      });
     }
-    this.setState(prevState => ({
-      contacts: [...prevState.contacts, newContact],
-    }));
+  }
+
+  handleSubmit = query => {
+    this.setState({ query, page: 1, images: [] });
   };
-  handleInput = ev => {
-    this.setState({ [ev.target.name]: ev.target.value.toLowerCase() });
-  };
-  deleteContact = id => {
-    this.setState(prevState => ({
-      contacts: prevState.contacts.filter(el => el.id !== id),
-    }));
-  };
-  createRenderListContact = () => {
-    const { contacts, filter } = this.state;
-    let toRender;
-    if (filter.length !== 0) {
-      toRender = contacts.filter(el =>
-        el.name.toLowerCase().includes(filter.toLowerCase())
-      );
-    } else {
-      toRender = contacts;
-    }
-    return toRender;
+  loadMore = () => {
+    this.setState(prevState => ({ page: (prevState.page += 1) }));
   };
   render() {
+    const { images,isLoadMore } = this.state;
     return (
-      <div>
-        <h1
-          style={{
-            fontSize: '45px',
-            textAlign: 'center',
-            marginBottom: '20px',
-          }}
-        >
-          Phonebook
-        </h1>
-        <ContactForm update={this.updateContacts} />
-        <h2
-          style={{
-            fontSize: '40px',
-            marginBottom: '10px',
-            textAlign: 'center',
-          }}
-        >
-          Contacts
-        </h2>
-        <Filter handleInput={this.handleInput} />
-        <ContactList
-          contacts={this.createRenderListContact()}
-          deleteContact={this.deleteContact}
-        />
-      </div>
+      <>
+        <Searchbar handleSubmit={this.handleSubmit} />
+        <ImageGallery images={images} />
+        {isLoadMore&&<Button onClick={this.loadMore} />}
+      </>
     );
   }
 }
