@@ -47,7 +47,7 @@ class App extends Component {
 
   handleSubmit = query => {
     if (this.state.query === query) {
-      return
+      return;
     }
     this.setState({
       query,
@@ -66,7 +66,7 @@ class App extends Component {
   render() {
     const { images, isLoadMore, isLoading, error, isEmpty, url } = this.state;
     return (
-      <AppStyled>
+      <>
         {isLoading && <Loader />}
         <Searchbar handleSubmit={this.handleSubmit} />
         {isEmpty && (
@@ -76,7 +76,7 @@ class App extends Component {
         {error && <ErrorStyled>Sorry. {error}...😭</ErrorStyled>}
         <ImageGallery images={images} openModal={this.openModal} />
         {isLoadMore && <Button onClick={this.loadMore}>Load More</Button>}
-      </AppStyled>
+      </>
     );
   }
 }
