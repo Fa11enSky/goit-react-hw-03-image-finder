@@ -6,7 +6,7 @@ import Button from './Button/Button';
 import { Loader } from './Loader/Loader';
 import { ErrorStyled } from './ErrorMessage/Error.styled';
 import Modal from './Modal/Modal';
-// import { AppStyled } from './AppStyled/AppStuled';
+import { AppStyled } from './AppStyled/AppStuled';
 
 class App extends Component {
   state = {
