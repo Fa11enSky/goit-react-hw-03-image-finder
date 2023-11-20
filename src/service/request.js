@@ -11,7 +11,7 @@ async function requestImage(params) {
     page: params.page,
   };
 
-  const images = await axios.get('/api', { params });
+  const images = await axios.get('/api/', { params });
   return images.data;
 }
 export { requestImage };
