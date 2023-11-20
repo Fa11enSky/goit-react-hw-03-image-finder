@@ -1,12 +1,18 @@
-import ImageGalleryItem from "components/ImageGalleryItem/ImageGalleryItem";
-const ImageGallery = ({images}) => {
-   
+import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
+import { Gallery } from './Gallery.styled';
+const ImageGallery = ({ images, openModal }) => {
   return (
-    <ul className="gallery">
+    <Gallery>
       {images.map(image => {
-        return <ImageGalleryItem image={image} key={image.id} />
+        return (
+          <ImageGalleryItem
+            handleClick={openModal}
+            image={image}
+            key={image.id}
+          />
+        );
       })}
-    </ul>
+    </Gallery>
   );
 };
-export default ImageGallery
+export default ImageGallery;

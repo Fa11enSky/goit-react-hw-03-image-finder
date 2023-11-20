@@ -1,8 +1,15 @@
-const ImageGalleryItem = ({ image }) => {
+import { ItemStyled, ImageStyled } from './Item.styled';
+const ImageGalleryItem = ({ image, handleClick }) => {
   return (
-    <li className="gallery-item">
-      <img src={image.webformatURL} alt={image.tags} />
-    </li>
+    <ItemStyled>
+      <ImageStyled
+        onClick={() => {
+          handleClick(image.largeImageURL);
+        }}
+        src={image.webformatURL}
+        alt={image.tags}
+      ></ImageStyled>
+    </ItemStyled>
   );
 };
 export default ImageGalleryItem;

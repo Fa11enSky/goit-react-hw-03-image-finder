@@ -10,12 +10,8 @@ async function requestImage(params) {
     per_page: 12,
     page: params.page,
   };
-  try {
-    const images = await axios.get('/api', { params });
-    console.log(images)
-    return images.data;
-  } catch (err) {
-    console.log(err);
-  }
+
+  const images = await axios.get('/api', { params });
+  return images.data;
 }
 export { requestImage };

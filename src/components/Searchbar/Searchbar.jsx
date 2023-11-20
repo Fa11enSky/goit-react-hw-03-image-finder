@@ -1,7 +1,12 @@
 import { Component } from 'react';
-import css from './searchbar.module.css';
 import { CiSearch } from 'react-icons/ci';
-
+import {
+  SearchFormStyled,
+  SearchFormBtn,
+  HeaderStyled,
+  SpanBtnStyled,
+  InputStyled,
+} from './Searchbar.styled';
 class Searchbar extends Component {
   state = {
     query: '',
@@ -16,23 +21,22 @@ class Searchbar extends Component {
   };
   render() {
     return (
-      <header className={css.searchbar}>
-        <form className={css.searchForm} onSubmit={this.handleSubmit}>
-          <button type="submit" className={css.searchForm_button}>
+      <HeaderStyled>
+        <SearchFormStyled onSubmit={this.handleSubmit}>
+          <SearchFormBtn type="submit">
             <CiSearch size={30} />
-            <span className={css.searchForm_button_label}>Search</span>
-          </button>
+            <SpanBtnStyled>Search</SpanBtnStyled>
+          </SearchFormBtn>
 
-          <input
+          <InputStyled
             onInput={this.handleInput}
-            className={css.input}
             type="text"
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
           />
-        </form>
-      </header>
+        </SearchFormStyled>
+      </HeaderStyled>
     );
   }
 }
