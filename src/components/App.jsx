@@ -46,6 +46,9 @@ class App extends Component {
   }
 
   handleSubmit = query => {
+    if (this.state.query === query) {
+      return
+    }
     this.setState({
       query,
       page: 1,
