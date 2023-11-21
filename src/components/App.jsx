@@ -58,7 +58,7 @@ class App extends Component {
     });
   };
   loadMore = () => {
-    this.setState(prevState => ({ page: (prevState.page += 1) }));
+    this.setState(prevState => ({ page: (prevState.page + 1) }));
   };
   openModal = url => {
     this.setState({ url });
